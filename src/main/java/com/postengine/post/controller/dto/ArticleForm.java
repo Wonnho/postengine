@@ -15,6 +15,7 @@ public class ArticleForm {
     private String content;
 
     public Article toEntity() {
+
         return new Article(null, subject, content);
     }
 }
