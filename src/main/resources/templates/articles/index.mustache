@@ -1,6 +1,5 @@
 {{>layouts/header}}
 
-{{#article}}
 <table class="table">
   <thead>
     <tr>
@@ -11,15 +10,15 @@
   </thead>
 
   <tbody>
+    {{#articleList}}
     <tr>
       <th scope="row">{{id}}</th>
-      <td>{{subject}}</td>
+      <td><a href="/articles/{{id}}">{{subject}}</a></td>
       <td>{{content}}</td>
     </tr>
+    {{/articleList}}
   </tbody>
 </table>
-{{/article}}
 
-<a href="/articles"> Article List</a>
-
+<a href="/articles/new">새글작성</a>
 {{>layouts/footer}}

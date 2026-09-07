@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -42,7 +43,7 @@ private ArticleRepository articleRepository;
     //2. save Entity to DB using repository
     Article  saved=articleRepository.save(article);
         log.info(saved.toString());
-        return "";
+        return "redirect:/articles";
     }
     @GetMapping("/articles/{id}")
     public String show(@PathVariable("id") Long id, Model model) {
@@ -51,5 +52,16 @@ private ArticleRepository articleRepository;
 
         model.addAttribute("article",articleEntity);
     return "articles/show";
+    }
+
+    @GetMapping("/articles")
+    public String index(Model model) {
+
+    //1, get all data
+      List<Article> articleEntityList=articleRepository.findAll();
+        // 2. register data to Model
+        model.addAttribute("articleList",articleEntityList);
+        // 3. set up view page
+    return "articles/index";
     }
 }
