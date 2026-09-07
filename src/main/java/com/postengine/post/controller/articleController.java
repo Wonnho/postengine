@@ -64,4 +64,14 @@ private ArticleRepository articleRepository;
         // 3. set up view page
     return "articles/index";
     }
+
+    @GetMapping("/articles/{id}/edit")
+    public String edit(@PathVariable("id") Long id,Model model) {
+   // get particular data from DB
+    Article articleEntity=articleRepository.findById(id).orElse(null);
+    //register data to model so that use it at view page
+        model.addAttribute("article",articleEntity);
+    // view page
+    return "articles/edit";
+    }
 }
