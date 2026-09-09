@@ -70,6 +70,7 @@ private ArticleRepository articleRepository;
     public String edit(@PathVariable("id") Long id,Model model) {
    // get particular data from DB
     Article articleEntity=articleRepository.findById(id).orElse(null);
+        log.info("articleEntity = {}", articleEntity);
     //register data to model so that use it at view page
         model.addAttribute("article",articleEntity);
     // view page
@@ -90,6 +91,7 @@ private ArticleRepository articleRepository;
         if(target !=null) {
             articleRepository.save(articleEntity);
         }
+
         // 3. redirect DB to update page
     return "redirect:/articles/"+articleEntity.getId();
     }
