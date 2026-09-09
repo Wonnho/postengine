@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,4 +75,39 @@ private ArticleRepository articleRepository;
     // view page
     return "articles/edit";
     }
+
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form){
+   //check to get form data
+    log.info(form.toString());
+
+    //1. transform DTO to Entity
+        Article articleEntity=form.toEntity();
+        log.info(articleEntity.toString());
+        // 2. dave Entity to DB
+        Article target=articleRepository.findById(articleEntity.getId()).orElse(null);
+        // 2.2 update data
+        if(target !=null) {
+            articleRepository.save(articleEntity);
+        }
+        // 3. redirect DB to update page
+    return "redirect:/articles/"+articleEntity.getId();
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes rttr) {
+
+    //1. get object to delete
+        Article target=articleRepository.findById(id).orElse(null);
+        log.info(target.toString());
+        // 2. delete target entity
+        if(target !=null) {
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("message","successfully deleted");
+        }
+
+        // 3. redirect to result page
+    return "redirect:/articles";
+    }
+
 }

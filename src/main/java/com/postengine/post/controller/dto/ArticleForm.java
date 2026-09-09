@@ -13,9 +13,10 @@ import lombok.ToString;
 public class ArticleForm {
     private String subject;
     private String content;
+    private Long id;
 
     public Article toEntity() {
 
-        return new Article(null, subject, content);
+        return new Article(id, subject, content);
     }
 }
