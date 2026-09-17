@@ -23,6 +23,14 @@ public class Article {
     private String content;
 
 
+    public void patch(Article article) {
+        if(article.subject !=null) {
+            this.subject= article.subject;
+        }
+        if(article.content !=null) {
+            this.content= article.content;
+        }
     }
+}
 
 
