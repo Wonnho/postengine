@@ -3,6 +3,7 @@ package com.postengine.post.service;
 import com.postengine.post.controller.dto.ArticleForm;
 import com.postengine.post.controller.entity.Article;
 import com.postengine.post.repository.ArticleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class ArticleService {
         return articleRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Article create(ArticleForm dto) {
         Article  article=dto.toEntity();
         if(article.getId()!=null) {
@@ -48,4 +50,13 @@ public class ArticleService {
         return articleRepository.save(target); // save once
     }
 
+    public Article delete(Long id) {
+
+        Article target=articleRepository.findById(id).orElse(null);
+        if(target==null) {
+            return    null;
+        }
+        articleRepository.delete(target);
+        return target;
+    }
 }
