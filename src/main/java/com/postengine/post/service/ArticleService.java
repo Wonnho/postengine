@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -58,5 +59,18 @@ public class ArticleService {
         }
         articleRepository.delete(target);
         return target;
+    }
+
+    @Transactional
+    public List<Article> createArticles(List<ArticleForm> dtos) {
+        //dtos.toEntity();
+        //1. dtos를 entity 묶음으로 변환하기
+       List<Article> articleList=dtos.stream().map(dto -> dto.toEntity()).collect(Collectors.toList());
+         // 2. save entity list to DB
+        articleList.stream().forEach(article -> articleRepository.save(article));
+         //3. exception
+        articleRepository.findById(-1L).orElseThrow(()->new IllegalArgumentException("failed"));
+        // 4. return output
+        return articleList;
     }
 }

@@ -63,4 +63,16 @@ public class ArticleApiController {
                 ResponseEntity.status(HttpStatus.OK).body(deleted):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    @PostMapping("/api/transaction-test")
+    public  ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos) {
+      List<Article>   articles=articleService.createArticles(dtos);
+
+          return (articles !=null)?
+                  ResponseEntity.status(HttpStatus.OK).body(articles):
+                  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+
+
+    }
 }
