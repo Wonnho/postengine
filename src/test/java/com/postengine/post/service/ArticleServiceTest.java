@@ -93,13 +93,46 @@ class ArticleServiceTest {
     }
 
     @Test
-    void update_success() {
+    void update_success_3() {
+        Long id=3L;
+        String subject="3번째 글을 수정";
+        String content="update test를 통해 수정해 본다";
+        ArticleForm dto =new ArticleForm(subject,content,id);
+        //1.expected data
+        Article expected=new Article(id,subject,content);
+        //2.actual data
+        Article actual=articleService.update(id,dto);
+        //3. compare and verify
+        assertEquals(expected.toString(),actual.toString());
 
 
     }
 
     @Test
-    void update_failure() {
+    void update_success_2() {  // id and title only
+            Long id = 4L;
+            String subject = "4번째 글을 수정";
+            String content = "Kings Coffee"; // existing old content
+
+            ArticleForm dto = new ArticleForm(subject, null, id);
+
+            Article expected = new Article(id, subject, content);
+
+            Article actual = articleService.update(id, dto);
+
+            assertEquals(expected.toString(), actual.toString());
+        }
+
+
+    @Test
+    void update_failure_by_id() {
+        Long id = 45L;
+        ArticleForm dto = new ArticleForm("4번째 글을 수정", "Kings Coffee", id);
+
+        Article actual = articleService.update(id, dto);
+
+        assertNull(actual);
+
 
     }
 
