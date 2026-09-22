@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
-    @Query(value="SELECT * FROM comment WHERER article_id=:articleId",nativeQuery = true)
+    @Query(value="SELECT * FROM comment WHERE article_id=:articleId",nativeQuery = true)
     List<Comment> findByArticleId(Long articleId);
+
+    // retrieve all comments for a particular post
+    List<Comment> findByNickname(String nickname);
 }
