@@ -1,5 +1,6 @@
 package com.postengine.post.controller.entity;
 
+import com.postengine.post.controller.dto.CommentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,27 @@ public class Comment {
     private String nickname; // 대글 단 필명
     @Column
     private String body; //댓글 본문
+
+
+    public static Comment createComment(CommentDto dto, Article article) {
+        //1.exception
+        if (dto.getId() != null) {
+            throw new IllegalArgumentException("No id should not exist in comment. You can't create a comment");
+        }
+        if (article == null) {
+            throw new IllegalArgumentException("Article does not exist. You can't create a comment");
+        }
+        if (dto.getBody() == null) {
+            throw new IllegalArgumentException("Comment body is required");
+        }
+
+
+        // 2.create entity and return
+        return new Comment(
+                null,
+                article,
+                dto.getNickname(),
+                dto.getBody()
+        );
+    }
 }
