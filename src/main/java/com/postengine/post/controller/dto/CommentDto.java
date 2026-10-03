@@ -16,7 +16,7 @@ public class CommentDto {
 
     private String body;
 
-    public static CommentDto createCommentDto(Comment c) {
+    public static CommentDto createCommentDto(Comment c) { // DB->DTO
         return new CommentDto(
                 c.getId(),
                 c.getArticle().getId(),

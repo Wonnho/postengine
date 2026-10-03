@@ -31,20 +31,41 @@ public class Comment {
         if (dto.getId() != null) {
             throw new IllegalArgumentException("No id should not exist in comment. You can't create a comment");
         }
-        if (article == null) {
-            throw new IllegalArgumentException("Article does not exist. You can't create a comment");
-        }
-        if (dto.getBody() == null) {
+//        if (article == null) {
+//            throw new IllegalArgumentException("Article does not exist. You can't create a comment");
+//        }
+//        if (dto.getBody() == null) {
+//            throw new IllegalArgumentException("Comment body is required");
+//        }
+
+        if (dto.getArticleId() != article.getId()) {
             throw new IllegalArgumentException("Comment body is required");
         }
 
-
         // 2.create entity and return
         return new Comment(
-                null,
+                dto.getId(),
                 article,
                 dto.getNickname(),
                 dto.getBody()
         );
+    }
+
+    public void patch(CommentDto commentDto) {
+        //예외 발생
+      //  if(this.id!=commentDto.getId()) {
+        if(!this.id.equals(commentDto.getId())) {
+
+                throw new IllegalArgumentException("failed to update comment! DB id is not equal to id of updating object");
+        }
+
+        //객체 갱신
+
+        if(commentDto.getNickname() !=null) {
+            this.nickname=commentDto.getNickname();
+        }
+        if(commentDto.getBody()!=null) {
+            this.body=commentDto.getBody();
+        }
     }
 }
