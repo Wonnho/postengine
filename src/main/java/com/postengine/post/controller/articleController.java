@@ -1,8 +1,10 @@
 package com.postengine.post.controller;
 
 import com.postengine.post.controller.dto.ArticleForm;
+import com.postengine.post.controller.dto.CommentDto;
 import com.postengine.post.controller.entity.Article;
 import com.postengine.post.repository.ArticleRepository;
+import com.postengine.post.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ public class articleController {
 
     @Autowired
 private ArticleRepository articleRepository;
+
+    @Autowired
+    private CommentService commentService;
 
 @GetMapping("/articles/new")
     public String newArticleForm() {
@@ -50,8 +55,10 @@ private ArticleRepository articleRepository;
     public String show(@PathVariable("id") Long id, Model model) {
         Article articleEntity = articleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Article not found: " + id));
+      List<CommentDto> commentDtos=commentService.comments(id);
 
         model.addAttribute("article",articleEntity);
+        model.addAttribute("commentDtos",commentDtos);
     return "articles/show";
     }
 
